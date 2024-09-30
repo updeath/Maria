@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Memoria</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            background-image: url(IMG_20190410_121523_213.jpg);
+
+            background-size: 8%;
+            background-color: rgba(53, 52, 52, 0.5); /* Color blanco semitransparente */
+            background-blend-mode: overlay; /* Combina la imagen con el color de fondo */
+        }
+        .contenedor {
+            text-align: center;
+            background-color: rgba(53, 52, 52, 0.5); /* Color blanco semitransparente */
+            background-blend-mode: overlay; /* Combina la imagen con el color de fondo */
+        }
+        
+        .tablero {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .carta {
+            width: 200px;
+            height: 200px;
+            background-color: #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0;
+            transition: background-color 0.3s ease;
+        }
+        .carta.volteada {
+            background-color: #fff;
+            font-size: 40px;
+        }
+        .mensaje {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ef11eb;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .button-reload {
+            width: 10rem;
+            height: 3rem;
+            border-radius: 3rem;
+            background-color: rgba(98, 47, 209, 0.404);
+            cursor: pointer;
+            box-shadow: 5px 5px 10px rgba(80, 9, 233, 0.67);
+            border: none;
+        }
+
+        .button-reload:hover {
+            transform: scale(1.1);
+            transition: .3s;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <h1>Juego para María</h1>
+        <div id="tablero" class="tablero"></div>
+    </div>
+    <div id="mensaje" class="mensaje"></div>
+    <button id="button-reload" class="button-reload hidden" onclick="window.location.reload()">Volver a jugar</button>
+
+    <script>
+        const imagenes = ['foto1.jpg', 'foto2.jpg', 'foto3.jpeg', 'foto4.jpeg'];
+        let cartas = [...imagenes, ...imagenes];
+        let cartasVolteadas = [];
+        let cartasEmparejadas = [];
+
+        function barajarCartas() {
+            for (let i = cartas.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cartas[i], cartas[j]] = [cartas[j], cartas[i]];
+            }
+        }
+
+        function crearTablero() {
+            const tablero = document.getElementById('tablero');
+            barajarCartas();
+            cartas.forEach((carta, index) => {
+                const elemento = document.createElement('div');
+                elemento.classList.add('carta');
+                elemento.dataset.index = index;
+                elemento.addEventListener('click', voltearCarta);
+                tablero.appendChild(elemento);
+            });
+        }
+
+        function voltearCarta() {
+            const index = this.dataset.index;
+            if (cartasVolteadas.length < 2 && !cartasVolteadas.includes(index) && !cartasEmparejadas.includes(index)) {
+
+                // Crear etiqueta img para asignar ruta a la imagen
+                const img = document.createElement('img');
+                img.src = cartas[index];
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'cover';
+
+                this.appendChild(img); // Añadir la imagen dentro de la carta
+                this.classList.add('volteada');
+                cartasVolteadas.push(index);
+
+                if (cartasVolteadas.length === 2) {
+                    setTimeout(comprobarCoincidencia, 500);
+                }
+            }
+        }
+
+        function comprobarCoincidencia() {
+            const [index1, index2] = cartasVolteadas;
+            const cartasElementos = document.querySelectorAll('.carta');
+
+            if (cartasElementos[index1].querySelector('img').src === cartasElementos[index2].querySelector('img').src) {
+                cartasEmparejadas.push(index1, index2);
+
+                // Si todas las cartas están emparejadas, mostrar mensaje de victoria
+                if (cartasEmparejadas.length === cartas.length) {
+                    const mensaje = document.getElementById('mensaje');
+                    const button = document.getElementById('button-reload');
+                    mensaje.textContent = '¡Felicidades, completaste el juego. Has ganado una camisa que se me quedó allá!';
+                    button.classList.remove('hidden');
+                }
+            } else {
+                // Si no coinciden, dar vuelta nuevamente las cartas
+                cartasElementos[index1].innerHTML = ''; // Quitar la imagen si no hay coincidencia
+                cartasElementos[index2].innerHTML = ''; // Quitar la imagen si no hay coincidencia
+                cartasElementos[index1].classList.remove('volteada');
+                cartasElementos[index2].classList.remove('volteada');
+            }
+
+            // Limpiar las cartas volteadas después de comprobar
+            cartasVolteadas = [];
+        }
+
+        crearTablero();
+    </script>
+</body>
+</html>

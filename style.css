@@ -1,0 +1,118 @@
+body {
+    background-image: url('foto1.jpg');
+    background-size: 8%;
+    background-color: rgba(53, 52, 52, 0.5); /* Color blanco semitransparente */
+    background-blend-mode: overlay; /* Combina la imagen con el color de fondo */
+
+}
+
+p {
+    font-weight: bold;
+    font-size: small;
+    text-shadow: 30px 30px 50px rgb(186, 18, 219);
+}
+
+.container_principal {
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    margin-top: 17%;
+    box-shadow: 20px 0px 30px rgb(128, 71, 186);
+    
+    background-size: 8%;
+    background-color: rgba(170, 143, 143, 0.5); /* Color blanco semitransparente */
+    background-blend-mode: overlay; /* Combina la imagen con el color de fondo */
+}
+
+.container_M {
+    display: flex;
+}
+
+.container_M .container_3 {
+    display: block;
+    margin-top: 1rem;
+}
+
+.container_M .container_4{
+    margin-top: 1rem;
+}
+
+.palabra {
+    margin: 0;
+    color: #000;
+}
+
+/* -----------------------Letra A ----------------------------*/
+
+.container_A {
+    margin-left: 2rem;
+    width: 20rem;
+}
+
+.container_A .container_1 {
+    width: 100%;
+    height: 2.1rem;
+    text-align: center;
+}
+
+.container_A .container_2_y_3 {
+    display: flex;
+    width: 100%;
+}
+
+.container_A .container_2_y_3 .container_3 {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+
+.container_A .container_2_y_3 .container_2 {
+    width: 50%;
+}
+
+/*-------------------------Letra R ------------------------------*/
+
+.container_R {
+    width: 20rem;
+    margin-left: 2rem;
+    height: 100%;
+    display: flex;
+}
+
+.container-content {
+    display: flex;
+}
+
+.container_R .container_2 .primero .primero_2 {
+    margin-top: 4.63rem;
+}
+
+.container_R .container_2 .segundo {
+    margin-top: 1.2rem;
+}
+
+
+/*-------------------------------------*/
+
+.div-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+}
+
+.button-play {
+    width: 12rem;
+    border-radius: 3rem;
+    background-color: rgba(98, 47, 209, 0.404);
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(80, 9, 233, 0.67);
+    border: none;
+}
+
+.button-play:hover {
+    transform: scale(1.1);
+    transition: .3s;
+}
